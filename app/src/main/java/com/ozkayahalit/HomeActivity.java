@@ -1,9 +1,14 @@
 package com.ozkayahalit;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +38,8 @@ public class HomeActivity extends AppCompatActivity {
     SessionManager sessionManager;
     String getId;
     private static String URL_READ = "https://ozkayahalit.com/read_detail.php";
+    private static String URL_EDIT = "https://ozkayahalit.com/edit_detail.php";
+    private Menu action;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +65,7 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    // getUserDetail
     private void getUserDetail(){
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
@@ -125,5 +133,112 @@ public class HomeActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         getUserDetail();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_action, menu);
+
+        action = menu;
+        action.findItem(R.id.menu_save).setVisible(false);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.menu_edit:
+
+                name.setFocusableInTouchMode(true);
+                email.setFocusableInTouchMode(true);
+
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(name, InputMethodManager.SHOW_IMPLICIT);
+
+                action.findItem(R.id.menu_edit).setVisible(false);
+                action.findItem(R.id.menu_save).setVisible(true);
+
+                return true;
+
+            case R.id.menu_save:
+
+                SaveEditDetail();
+
+                action.findItem(R.id.menu_edit).setVisible(true);
+                action.findItem(R.id.menu_save).setVisible(false);
+
+                name.setFocusableInTouchMode(false);
+                email.setFocusableInTouchMode(false);
+                name.setFocusable(false);
+                email.setFocusable(false);
+
+                 return  true;
+
+                default:
+
+                    return super.onOptionsItemSelected(item);
+        }
+
+
+    }
+
+    // saveUserDetail
+    private void SaveEditDetail() {
+
+        final String name = this.name.getText().toString().trim();
+        final String email = this.email.getText().toString().trim();
+        final String id = getId;
+
+        final  ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Saving...");
+        progressDialog.show();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_EDIT,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        progressDialog.dismiss();
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String success = jsonObject.getString("success");
+
+                            if (success.equals("1")){
+                                Toast.makeText(HomeActivity.this, "Success!", Toast.LENGTH_LONG).show();
+                                sessionManager.createSession(name,email, id);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            progressDialog.dismiss();
+                            Toast.makeText(HomeActivity.this, "Error "+e, Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+                        Toast.makeText(HomeActivity.this, "Error "+error, Toast.LENGTH_SHORT).show();
+
+                    }
+                })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("name", name);
+                params.put("email", email);
+                params.put("id", id);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+
     }
 }
