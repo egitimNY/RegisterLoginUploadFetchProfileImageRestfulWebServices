@@ -33,11 +33,14 @@ public class LoginActivity extends AppCompatActivity {
     private TextView link_regist;
     private ProgressBar loading;
     private static String URL_LOGIN = "https://ozkayahalit.com/login.php";
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        sessionManager = new SessionManager(this);
 
         loading = findViewById(R.id.loading);
         email = findViewById(R.id.email);
@@ -91,6 +94,8 @@ public class LoginActivity extends AppCompatActivity {
 
                                     String name = object.getString("name").trim();
                                     String email = object.getString("email").trim();
+
+                                    sessionManager.createSession(name, email);
 
                                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                                     intent.putExtra("name",name);
