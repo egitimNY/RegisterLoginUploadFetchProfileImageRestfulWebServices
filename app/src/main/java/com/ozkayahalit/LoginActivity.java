@@ -92,11 +92,10 @@ public class LoginActivity extends AppCompatActivity {
                                     String name = object.getString("name").trim();
                                     String email = object.getString("email").trim();
 
-                                    Toast.makeText(LoginActivity.this,
-                                            "Success Login. \nYour Name : "
-                                                    +name+"\nYour Email : "
-                                                    +email, Toast.LENGTH_LONG)
-                                            .show();
+                                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                                    intent.putExtra("name",name);
+                                    intent.putExtra("email",email);
+                                    startActivity(intent);
 
                                     loading.setVisibility(View.GONE);
 
@@ -136,4 +135,3 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 }
-
