@@ -3,6 +3,7 @@ package com.ozkayahalit;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -104,8 +105,14 @@ public class HomeActivity extends AppCompatActivity {
                                     name.setText(strName);
                                     email.setText(strEmail);
 
-                                    //display image from string url
-                                    Picasso.get().load(strImage).into(circleImageView);
+                                    if (TextUtils.isEmpty(strImage)){
+                                        circleImageView.setImageResource(R.drawable.ic_person);
+
+                                    }else {
+                                        //display image from string url
+                                        Picasso.get().load(strImage).into(circleImageView);
+                                    }
+
 
                                 }
 
