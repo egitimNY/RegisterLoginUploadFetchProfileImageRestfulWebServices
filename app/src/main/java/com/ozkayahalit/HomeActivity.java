@@ -22,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,6 +30,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -40,6 +43,7 @@ public class HomeActivity extends AppCompatActivity {
     private static String URL_READ = "https://ozkayahalit.com/read_detail.php";
     private static String URL_EDIT = "https://ozkayahalit.com/edit_detail.php";
     private Menu action;
+    CircleImageView circleImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,7 @@ public class HomeActivity extends AppCompatActivity {
         name = findViewById(R.id.name);
         email = findViewById(R.id.email);
         btn_logout = findViewById(R.id.btn_logout);
+        circleImageView = findViewById(R.id.profile_image);
 
         HashMap<String, String> user = sessionManager.getUserDetail();
         getId = user.get(sessionManager.ID);
@@ -93,8 +98,14 @@ public class HomeActivity extends AppCompatActivity {
                                     String strName = object.getString("name".trim());
                                     String strEmail = object.getString("email".trim());
 
+                                    // this for fetch image from json
+                                    String strImage = object.getString("image".trim());
+
                                     name.setText(strName);
                                     email.setText(strEmail);
+
+                                    //display image from string url
+                                    Picasso.get().load(strImage).into(circleImageView);
 
                                 }
 
