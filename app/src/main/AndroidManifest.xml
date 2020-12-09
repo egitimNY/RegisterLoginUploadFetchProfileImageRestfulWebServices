@@ -24,6 +24,7 @@
         <activity
             android:name=".LoginActivity"
             android:theme="@style/AppThemeLogin" />
+        <activity android:name=".UserDetailActivity"></activity>
     </application>
 
 </manifest>

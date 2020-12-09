@@ -69,6 +69,7 @@ public class HomeActivity extends AppCompatActivity {
         btn_logout = findViewById(R.id.btn_logout);
         circleImageView = findViewById(R.id.profile_image);
         btn_photo_upload = findViewById(R.id.btn_photo);
+        Button userDetail = findViewById(R.id.btn_user_details);
 
         HashMap<String, String> user = sessionManager.getUserDetail();
         getId = user.get(sessionManager.ID);
@@ -89,7 +90,22 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        userDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, UserDetailActivity.class);
+                intent.putExtra("name", strName);
+                intent.putExtra("email", strEmail);
+                intent.putExtra("image", imageUrl);
+                startActivity(intent);
+            }
+        });
+
     }
+
+    private String strName;
+    private String strEmail;
+    private String imageUrl;
 
     // getUserDetail
     private void getUserDetail(){
@@ -116,21 +132,21 @@ public class HomeActivity extends AppCompatActivity {
 
                                     JSONObject object = jsonArray.getJSONObject(i);
 
-                                    String strName = object.getString("name".trim());
-                                    String strEmail = object.getString("email".trim());
+                                    strName  = object.getString("name".trim());
+                                    strEmail = object.getString("email".trim());
 
                                     // this for fetch image from json
-                                    String strImage = object.getString("image".trim());
+                                     imageUrl = object.getString("image".trim());
 
                                     name.setText(strName);
                                     email.setText(strEmail);
 
-                                    if (TextUtils.isEmpty(strImage)){
+                                    if (TextUtils.isEmpty(imageUrl)){
                                         circleImageView.setImageResource(R.drawable.ic_person);
 
                                     }else {
                                         //display image from string url
-                                        Picasso.get().load(strImage).into(circleImageView);
+                                        Picasso.get().load(imageUrl).into(circleImageView);
                                     }
 
 
