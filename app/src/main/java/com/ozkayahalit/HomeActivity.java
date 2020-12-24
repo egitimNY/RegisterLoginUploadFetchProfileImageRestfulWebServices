@@ -104,6 +104,18 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        circleImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), UserDetailActivity.class);
+                intent.putExtra("name", strName);
+                intent.putExtra("email", strEmail);
+                intent.putExtra("image", imageUrl);
+                startActivity(intent);
+            }
+        });
+
+
     }
 
     private String strName;
