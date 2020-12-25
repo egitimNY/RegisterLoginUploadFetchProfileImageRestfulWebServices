@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView link_regist;
     private ProgressBar loading;
 //    private static String URL_LOGIN = "https://ozkayahalit.com/login.php";
-    private static String URL_LOGIN = "https://ozkayahalit.com/RegisterLoginVolley_HaerulMuttaqin/login.php";
+    private static String URL_LOGIN = "https://ozkayahalit.com/Haerul/RegisterLoginVolley_HaerulMuttaqin/login.php";
     SessionManager sessionManager;
 
     @Override

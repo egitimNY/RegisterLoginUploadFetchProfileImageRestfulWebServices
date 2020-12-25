@@ -50,11 +50,11 @@ public class HomeActivity extends AppCompatActivity {
     SessionManager sessionManager;
     String getId;
 //    private static String URL_READ = "https://ozkayahalit.com/read_detail.php";
-    private static String URL_READ = "https://ozkayahalit.com/RegisterLoginVolley_HaerulMuttaqin/read_detail.php";
+    private static String URL_READ = "https://ozkayahalit.com/Haerul/RegisterLoginVolley_HaerulMuttaqin/read_detail.php";
 //    private static String URL_EDIT = "https://ozkayahalit.com/edit_detail.php";
-    private static String URL_EDIT = "https://ozkayahalit.com/RegisterLoginVolley_HaerulMuttaqin/edit_detail.php";
+    private static String URL_EDIT = "https://ozkayahalit.com/Haerul/RegisterLoginVolley_HaerulMuttaqin/edit_detail.php";
 //    private static String URL_UPLOAD = "https://ozkayahalit.com/upload.php";
-    private static String URL_UPLOAD = "https://ozkayahalit.com/RegisterLoginVolley_HaerulMuttaqin/upload.php";
+    private static String URL_UPLOAD = "https://ozkayahalit.com/Haerul/RegisterLoginVolley_HaerulMuttaqin/upload.php";
     private Menu action;
     CircleImageView circleImageView;
     private Bitmap bitmap;
